@@ -1,6 +1,6 @@
 ---
 name: conventional-commits
-description: Write clear, consistent Git commit messages following Conventional Commits.
+description: Generate clear, consistent Git commit messages that follow the Conventional Commits specification.
 metadata:
   author: Lucas Kiraly
   updated: "2026-11-19"
@@ -8,24 +8,24 @@ metadata:
 
 # Conventional Commits
 
-Write clear, consistent Git commit messages following Conventional Commits.
+Follow these instructions to create clear, consistent commit messages that adhere to the Conventional Commits specification.
 
 ## Instructions
 
 1. Inspect the staged changes or diff before writing the commit message.
 
    - Identify all affected files, modules, and behaviors.
-   - Do not guess the intent from file names alone when the diff shows a different change.
+   - Do not infer the intent from file names alone when the diff reveals otherwise.
 
-2. Group unrelated changes when possible or focus the message on the primary change.
+2. Keep commits focused on a single logical change.
 
-   - Keep each commit focused on a single logical change.
    - When multiple files belong to the same feature, fix, or refactor, summarize the cohesive change rather than listing every file.
+   - Avoid combining unrelated changes into a single commit.
 
-3. Preserve existing repository conventions if the project already uses specific scopes or commit patterns.
+3. Preserve existing repository conventions.
 
    - Match established scope names (such as `api`, `cli`, `auth`, `ui`, `deps`) when clear from context.
-   - Keep the message concise and consistent across the history.
+   - Keep the message concise and consistent with the commit history.
 
 ## Commit format
 
@@ -35,7 +35,7 @@ Use this structure for the commit subject line:
 <emoji> <type>(<scope>): <description>
 ```
 
-Keep `<scope>` optional only when the change is truly global or spans unrelated areas without a single clear scope.
+The scope is optional when the change is global or no meaningful scope applies.
 
 ```text
 ✨ feat(parser): support nested configuration blocks
@@ -51,7 +51,9 @@ Keep `<scope>` optional only when the change is truly global or spans unrelated 
 
 ### Body and footer
 
-Add a blank line after the subject line only when extra context is genuinely needed (such as motivation, edge cases, or breaking changes).
+Add a blank line after the subject line only when extra context is genuinely needed, such as motivation, edge cases, or breaking changes.
+
+Use the body to explain why the change was made or provide relevant context not captured by the subject.
 
 ```text
 ♻️ refactor(queue): decouple worker dispatch from storage
@@ -79,21 +81,20 @@ Use a concise set of standard types mapped to a clear emoji:
 
 ## Commit style rules
 
-- Use the exact format `<emoji> <type>(<scope>): <description>` (or `<emoji> <type>: <description>` when scope is omitted).
+- Follow the exact format `<emoji> <type>(<scope>): <description>` or `<emoji> <type>: <description>` when the scope is omitted.
 - Keep the subject line concise, ideally 72 characters or fewer.
-- Write `<description>` in lowercase and in the imperative mood (e.g., `add`, `fix`, `remove`, `extract`).
+- Write the description in lowercase and imperative mood, starting with a verb (e.g., `add`, `fix`, `remove`, `extract`).
 - Do not end the subject line with a period.
-- Use lowercase kebab-case for `<scope>` when present (e.g., `auth`, `data-loader`, `ci`).
-- Mark breaking changes with `!` after `<type>` or `<scope>` (e.g., `✨ feat(api)!: change payload schema`) and explain them in a `BREAKING CHANGE:` footer when needed.
+- Use lowercase kebab-case for scopes (e.g., `auth`, `data-loader`, `ci`).
+- Mark breaking changes with `!` after the type or scope (e.g., `✨ feat(api)!: change payload schema`) and explain them in a `BREAKING CHANGE:` footer when needed.
 - Explain what changed and why; avoid vague messages like `fix bug`, `update stuff`, or `wip`.
 
 ## Checklist
 
 Before finishing, verify that:
 
-- Inspect the diff or requested changes before drafting the message.
-- Match the `<emoji> <type>(<scope>): <description>` structure.
-- Use an appropriate `<type>` and matching emoji for the change.
-- Keep `<description>` in imperative mood, lowercase, and without a trailing period.
-- Keep the subject line concise and at 72 characters or fewer.
-- Document breaking changes clearly when applicable.
+- The staged changes or diff have been inspected.
+- The commit follows the required format and uses the appropriate type and emoji.
+- The description is lowercase, imperative, and has no trailing period.
+- The subject line is concise and within the recommended length.
+- Breaking changes are documented when applicable.
