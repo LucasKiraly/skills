@@ -1,15 +1,15 @@
 # skills
 
-Reusable AI agent skills and workflow instructions for coding, documentation, and development tasks.
+A collection of reusable AI agent skills for coding, documentation, and software development workflows.
 
 ## Structure
 
 ```text
 skills/
 ├── conventional-commits/
-│   └── SKILL.md            # Conventional Commits guidelines
+│   └── SKILL.md
 └── python-docstrings/
-    └── SKILL.md            # Google-style Python docstring guidelines
+    └── SKILL.md
 ```
 
 ## Usage
