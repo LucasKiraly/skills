@@ -19,9 +19,3 @@ Install the skills using the [Skills CLI](https://github.com/vercel-labs/skills)
 ```bash
 npx skills add git@github.com:LucasKiraly/skills.git
 ```
-
-Alternatively, clone the repository to manage the skills manually:
-
-```bash
-git clone git@github.com:LucasKiraly/skills.git
-```
