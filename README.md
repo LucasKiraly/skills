@@ -14,16 +14,14 @@ skills/
 
 ## Usage
 
-Install skills from this repository using `npx`:
+Install the skills using the [Skills CLI](https://github.com/vercel-labs/skills):
 
 ```bash
-# Install skills from the repository
-npx skills add https://github.com/LucasKiraly/skills.git
+npx skills add git@github.com:LucasKiraly/skills.git
 ```
 
-You can also clone the repository directly if you prefer managing skills manually or linking them into your local setup:
+Alternatively, clone the repository to manage the skills manually:
 
 ```bash
-# Clone the skills repository
-git clone https://github.com/LucasKiraly/skills.git ~/Documentos/repos/skills
+git clone git@github.com:LucasKiraly/skills.git
 ```
