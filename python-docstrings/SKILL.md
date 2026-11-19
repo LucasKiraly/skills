@@ -76,7 +76,10 @@ class FrameProcessor:
     Example:
 
         @processor.event_handler("on_before_process_frame")
-        async def on_before_process_frame(processor, frame):
+        async def on_before_process_frame(
+            processor: FrameProcessor,
+            frame: Frame,
+        ) -> None:
             ...
     """
 ```
@@ -86,7 +89,13 @@ class FrameProcessor:
 Document every explicit `__init__` defined in the class and always describe its parameters.
 
 ```python
-def __init__(self, *, api_key: str, sample_rate: int = 22050, **kwargs):
+def __init__(
+    self,
+    *,
+    api_key: str,
+    sample_rate: int = 22_050,
+    **kwargs: object,
+) -> None:
     """Initialize the speech service.
 
     Args:
@@ -123,7 +132,12 @@ List each parameter by its exact signature name, followed by a colon and descrip
 Use a hanging indent for continuation lines and match the file's existing indentation convention. Keep descriptions concise and readable.
 
 ```python
-def list_users(page, page_size, *filters, **options):
+def list_users(
+    page: int,
+    page_size: int,
+    *filters: str,
+    **options: object,
+) -> list[dict[str, object]]:
     """List users with optional filters and query options.
 
     Args:
@@ -139,8 +153,15 @@ def list_users(page, page_size, *filters, **options):
 Use `Returns:` when a returned value has non-obvious semantics, shape, or sentinel values. Omit it for `None` and obvious results that need no explanation.
 
 ```python
+def load_config(environment: str) -> dict[str, str]:
+    """Load configuration for the specified environment.
+
+    Args:
+        environment: Name of the target environment.
+
     Returns:
         Parsed configuration for the current environment.
+    """
 ```
 
 ### Yields
@@ -148,7 +169,7 @@ Use `Returns:` when a returned value has non-obvious semantics, shape, or sentin
 Use `Yields:` instead of `Returns:` for generators.
 
 ```python
-def iter_batches(records, size):
+def iter_batches(records: list[str], size: int) -> Iterator[list[str]]:
     """Yield records in batches of a fixed size.
 
     Args:
@@ -165,7 +186,7 @@ def iter_batches(records, size):
 Use `Raises:` for exceptions callers can reasonably expect during normal use. Describe the condition that triggers each exception and use the same hanging-indent rule as `Args:` for long descriptions.
 
 ```python
-def validate_age(age):
+def validate_age(age: int) -> None:
     """Validate a person's age.
 
     Args:
@@ -173,7 +194,6 @@ def validate_age(age):
 
     Raises:
         ValueError: If the age is negative.
-        TypeError: If the age is not an integer.
     """
 ```
 
