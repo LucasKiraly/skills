@@ -76,10 +76,7 @@ class FrameProcessor:
     Example:
 
         @processor.event_handler("on_before_process_frame")
-        async def on_before_process_frame(
-            processor: FrameProcessor,
-            frame: Frame,
-        ) -> None:
+        async def on_before_process_frame(processor: FrameProcessor, frame: Frame) -> None:
             ...
     """
 ```
@@ -89,13 +86,7 @@ class FrameProcessor:
 Document every explicit `__init__` defined in the class and always describe its parameters.
 
 ```python
-def __init__(
-    self,
-    *,
-    api_key: str,
-    sample_rate: int = 22_050,
-    **kwargs: object,
-) -> None:
+def __init__(self, *, api_key: str, sample_rate: int = 22_050, **kwargs: object) -> None:
     """Initialize the speech service.
 
     Args:
@@ -112,10 +103,7 @@ Do not add an `__init__` method or docstring when the constructor is generated a
 Document every public method or function with a one-line summary, followed by context and sections only when useful. Never begin the summary with `Returns`.
 
 ```python
-async def put(
-    self,
-    item: tuple[Frame, FrameDirection, FrameCallback],
-) -> None:
+async def put(self, item: tuple[Frame, FrameDirection, FrameCallback]) -> None:
     """Put an item into the priority queue.
 
     Give system frames higher priority than other frames.
@@ -132,12 +120,7 @@ List each parameter by its exact signature name, followed by a colon and descrip
 Use a hanging indent for continuation lines and match the file's existing indentation convention. Keep descriptions concise and readable.
 
 ```python
-def list_users(
-    page: int,
-    page_size: int,
-    *filters: str,
-    **options: object,
-) -> list[dict[str, object]]:
+def list_users(page: int, page_size: int, *filters: str, **options: object) -> list[dict[str, object]]:
     """List users with optional filters and query options.
 
     Args:
