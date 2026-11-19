@@ -8,80 +8,70 @@ metadata:
 
 # Python Docstrings
 
-Document Python modules, classes, functions, and methods with concise Google-style docstrings.
+Follow these instructions to write and maintain concise, consistent Google-style docstrings across Python codebases.
 
 ## Instructions
 
 1. Determine the target scope from the request.
 
-   * If a module or file is requested, document the module following the order below.
-
-   * If a specific class, function, method, property, or symbol is requested, document only that target.
-
-   * If only a symbol name is given and matches multiple places in the source tree, list the matches and ask which one to document before editing.
+   - If a module or file is requested, document the module following the order below.
+   - If a specific class, function, method, property, or symbol is requested, document only that target.
+   - If only a symbol name is given and matches multiple places in the source tree, list the matches and ask which one to document before editing.
 
 2. Read the complete containing module before writing documentation.
 
-   * Inspect public behavior, dependencies, inheritance, decorators, and related types.
+   - Inspect public behavior, dependencies, inheritance, decorators, and related types.
+   - Read local dependencies only when needed to understand the public contract.
+   - Do not infer behavior from names or type annotations alone.
+   - Base documentation on actual implementation and observable behavior.
 
-   * Read local dependencies only when needed to understand the public contract.
+3. Preserve existing complete and accurate docstrings.
 
-   * Do not infer behavior from names or type annotations alone.
-
-3. Preserve complete existing docstrings.
-
-   A docstring is complete when it has a useful summary and applicable sections for parameters, returns, yields, raises, or attributes. Update only missing or incomplete documentation.
+   A docstring is complete when it has a useful summary and all applicable sections for parameters, returns, yields, raises, or attributes. Update only missing, incomplete, or inaccurate documentation.
 
 4. When documenting a module, apply documentation in this order:
 
    1. Module docstring.
-
    2. Public classes, dataclasses, Pydantic models, configuration classes, and enums.
-
    3. Constructors and their parameters.
-
    4. Public methods and functions.
+   5. Private methods and functions only when their behavior is complex, non-obvious, or important for maintenance.
 
-   5. Private methods only when their behavior is complex, non-obvious, or important for maintenance.
-
-   Skip trivial private methods, simple dunder methods (`__str__`, `__repr__`, `__post_init__`), and pass-through properties.
+   Skip trivial private callables, simple dunder methods (`__str__`, `__repr__`, `__post_init__`), and pass-through properties.
 
 ## Module docstring format
 
 Document every module right after the copyright header and before imports, using a one-line summary followed by an optional context paragraph when needed.
 
-```
-"""Load and validate application configuration.
+```python
+"""Application configuration loading and validation.
 
-Read configuration files and expose validated settings used at startup.
+This module reads configuration files and exposes validated settings used at startup.
 """
-
 ```
 
 ## Class docstring format
 
 Document every public class with a one-line summary followed by optional context about its public behavior, usage, or caveats.
 
-```
-class FrameProcessor:
-    """Process frames in a pipeline.
+```python
+class RetryPolicy:
+    """Define retry behavior for failed operations.
 
-    Receive frames, process them, and pass them to the next or
-    previous processor.
+    Set the maximum number of attempts and the delay between retries.
     """
-
 ```
 
-When a class exposes event handlers, list their names without backticks and include an `Example:` block only when it clarifies how to register a handler.
+When a class exposes event handlers, list their names using backticks and include an `Example:` block only when it clarifies how to register a handler.
 
-```
+```python
 class FrameProcessor:
     """Process frames and emit lifecycle events.
 
     Event handlers available:
 
-    - on_before_process_frame: Called before processing a frame.
-    - on_after_process_frame: Called after processing a frame.
+    - `on_before_process_frame`: Called before processing a frame.
+    - `on_after_process_frame`: Called after processing a frame.
 
     Example:
 
@@ -89,14 +79,13 @@ class FrameProcessor:
         async def on_before_process_frame(processor, frame):
             ...
     """
-
 ```
 
 ## Constructor format
 
-Document every explicit `__init__` written in the class and always describe its parameters.
+Document every explicit `__init__` defined in the class and always describe its parameters.
 
-```
+```python
 def __init__(self, *, api_key: str, sample_rate: int = 22050, **kwargs):
     """Initialize the speech service.
 
@@ -105,16 +94,15 @@ def __init__(self, *, api_key: str, sample_rate: int = 22050, **kwargs):
         sample_rate: Audio sample rate in Hz. Defaults to 22050.
         **kwargs: Additional arguments passed to the parent service.
     """
-
 ```
 
-Do not add an `__init__` method or docstring when the constructor is generated automatically (such as in dataclasses or Pydantic models). Document fields under `Attributes:` in the class docstring instead.
+Do not add an `__init__` method or docstring when the constructor is generated automatically, such as in dataclasses or Pydantic models. Document fields under `Attributes:` in the class docstring instead.
 
 ## Method format
 
 Document every public method or function with a one-line summary, followed by context and sections only when useful. Never begin the summary with `Returns`.
 
-```
+```python
 async def put(
     self,
     item: tuple[Frame, FrameDirection, FrameCallback],
@@ -126,39 +114,40 @@ async def put(
     Args:
         item: Item to enqueue.
     """
-
 ```
 
 ### Args
 
 List each parameter by its exact signature name, followed by a colon and description. Include `*args` and `**kwargs` with those exact names.
 
-Use a hanging indent when a description exceeds 72 characters. Indent continuation lines two or four spaces further than the parameter name, and match the file's existing convention.
+Use a hanging indent for continuation lines and match the file's existing indentation convention. Keep descriptions concise and readable.
 
-```
+```python
+def list_users(page, page_size, *filters, **options):
+    """List users with optional filters and query options.
+
     Args:
-        destination: Directory where downloaded files are stored.
-            Create it before calling this method when it does not exist.
-        *filters: Predicates to apply to each row.
-        **options: Backend-specific query options.
-
+        page: Page number to retrieve.
+        page_size: Maximum number of users per page.
+        *filters: Additional conditions to filter users.
+        **options: Additional query options, such as ordering.
+    """
 ```
 
 ### Returns
 
 Use `Returns:` when a returned value has non-obvious semantics, shape, or sentinel values. Omit it for `None` and obvious results that need no explanation.
 
-```
+```python
     Returns:
         Parsed configuration for the current environment.
-
 ```
 
 ### Yields
 
 Use `Yields:` instead of `Returns:` for generators.
 
-```
+```python
 def iter_batches(records, size):
     """Yield records in batches of a fixed size.
 
@@ -169,25 +158,32 @@ def iter_batches(records, size):
     Yields:
         Lists of records, with a shorter final batch when needed.
     """
-
 ```
 
 ### Raises
 
 Use `Raises:` for exceptions callers can reasonably expect during normal use. Describe the condition that triggers each exception and use the same hanging-indent rule as `Args:` for long descriptions.
 
-```
-    Raises:
-        FileNotFoundError: If the configuration file does not exist.
-        ConfigError: If the file contains invalid settings.
+```python
+def validate_age(age):
+    """Validate a person's age.
 
+    Args:
+        age: Age to validate.
+
+    Raises:
+        ValueError: If the age is negative.
+        TypeError: If the age is not an integer.
+    """
 ```
 
 ## Overridden methods
 
-Retain inherited documentation for an `@override` method when it preserves the public contract. Add or update the docstring when the override changes behavior, accepted inputs, returned values, side effects, exceptions, or timing.
+Do not add a docstring solely to repeat inherited documentation when an `@override` method preserves the public contract.
 
-```
+Add or update the docstring when the override changes behavior, accepted inputs, returned values, side effects, exceptions, or timing.
+
+```python
 @override
 def connect(self, timeout: float) -> Connection:
     """Connect with a bounded wait time.
@@ -198,14 +194,13 @@ def connect(self, timeout: float) -> Connection:
     Returns:
         An active connection.
     """
-
 ```
 
 ## Dataclass, configuration, and Pydantic model format
 
 Document dataclasses, configuration classes, and Pydantic `BaseModel` classes as data contracts. Use `Attributes:` to document fields, meaningful defaults, validation constraints, aliases, and serialization behavior that affect callers.
 
-```
+```python
 class ServiceSettings(BaseModel):
     """Connection settings for a service.
 
@@ -218,14 +213,13 @@ class ServiceSettings(BaseModel):
     api_url: HttpUrl
     timeout: int = 30
     retry_count: int = Field(ge=0)
-
 ```
 
 ## Enum format
 
 Document an enum's purpose and each public member under `Attributes:`.
 
-```
+```python
 class Status(Enum):
     """Processing state of a task.
 
@@ -236,62 +230,42 @@ class Status(Enum):
 
     READY = 1
     RUNNING = 2
-
 ```
 
 ## Property format
 
 Document a property's value or contract with a noun phrase. Do not use `Returns:`.
 
-```
+```python
 @property
 def timeout(self) -> float:
     """The request timeout, in seconds."""
-
 ```
 
 ## Docstring style rules
 
-* Use triple double quotes (`"""`).
-
-* Keep every line at 72 characters or fewer.
-
-* End the summary line with a period.
-
-* Put a blank line between the summary and subsequent sections.
-
-* Use concise, professional language.
-
-* Use imperative mood for functions and methods (e.g., `Fetch rows.`).
-
-* Use a noun phrase for properties, attributes, and modules.
-
-* Explain purpose and observable behavior before implementation details.
-
-* Use backticks for code references, parameters, and literals.
-
-* Do not restate obvious behavior or duplicate type annotations.
-
-* Add usage examples only when they clarify non-obvious behavior.
+- Use triple double quotes (`"""`).
+- Keep docstrings concise, readable, and well-formatted.
+- End the summary line with a period.
+- Put a blank line between the summary and subsequent sections.
+- Use concise, professional language.
+- Use imperative mood for functions and methods (e.g., `Fetch rows.`).
+- Use a noun phrase for properties, attributes, and modules.
+- Explain purpose and observable behavior before implementation details.
+- Use backticks for code references, parameters, and literals.
+- Do not restate obvious behavior or duplicate type annotations.
+- Add usage examples only when they clarify non-obvious behavior.
 
 ## Checklist
 
 Before finishing, verify that:
 
-* Identify the target scope and read the containing module.
-
-* Ensure the module docstring is present when the target scope is a module.
-
-* Document applicable classes, public methods, and functions concisely.
-
-* Document private methods only when their behavior is non-obvious.
-
-* Include `Args:`, `Returns:`, `Yields:`, `Raises:`, and `Attributes:` sections where useful.
-
-* Document fields or values under `Attributes:` for dataclasses, config classes, Pydantic models, and enums.
-
-* Leave existing complete docstrings untouched.
-
-* Keep wording concise, use imperative mood for actions, and match the implementation.
-
-* Keep every produced docstring line at 72 characters or fewer.
+- The target scope has been identified and the containing module has been read.
+- The module docstring is present when the target scope is a module.
+- Applicable classes, public methods, and functions are documented.
+- Private callables are documented only when their behavior is non-obvious.
+- Applicable `Args:`, `Returns:`, `Yields:`, `Raises:`, and `Attributes:` sections are included.
+- Dataclasses, configuration classes, Pydantic models, and enums document their fields or members under `Attributes:`.
+- Existing complete and accurate docstrings remain untouched.
+- Wording is concise, uses imperative mood for actions, and accurately reflects the implementation.
+- Docstrings are concise, readable, and consistently formatted.
