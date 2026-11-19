@@ -2,7 +2,7 @@
 name: python-docstrings
 description: Document Python modules, classes, functions, and methods with concise Google-style docstrings.
 metadata:
-  author: Lucas KIraly
+  author: Lucas Kiraly
   updated: "2026-11-19"
 ---
 
