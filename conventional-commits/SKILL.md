@@ -1,9 +1,6 @@
 ---
 name: conventional-commits
 description: Generate clear, consistent Git commit messages that follow the Conventional Commits specification.
-metadata:
-  author: Lucas Kiraly
-  updated: "2026-11-19"
 ---
 
 # Conventional Commits
