@@ -1,97 +1,67 @@
 ---
 name: conventional-commits
-description: Generate clear, consistent Git commit messages that follow the Conventional Commits specification.
+description: Writes clear, consistent Git commit messages that follow the Conventional Commits specification. Use when writing or improving commit messages.
 ---
 
 # Conventional Commits
 
-Follow these instructions to create clear, consistent commit messages that adhere to the Conventional Commits specification.
+Commit messages follow the Conventional Commits specification and are clear and consistent.
 
-## Instructions
+Each one describes a single logical change, based on the diff rather than on file names alone. When the staged changes mix unrelated changes, separate commits are suggested.
 
-1. Inspect the staged changes or diff before writing the commit message.
+Scopes and wording match the conventions already used in the repository's history.
 
-   - Identify all affected files, modules, and behaviors.
-   - Do not infer the intent from file names alone when the diff reveals otherwise.
+## Subject line
 
-2. Keep commits focused on a single logical change.
-
-   - When multiple files belong to the same feature, fix, or refactor, summarize the cohesive change rather than listing every file.
-   - Avoid combining unrelated changes into a single commit.
-
-3. Preserve existing repository conventions.
-
-   - Match established scope names (such as `api`, `cli`, `auth`, `ui`, `deps`) when clear from context.
-   - Keep the message concise and consistent with the commit history.
-
-## Commit format
-
-Use this structure for the commit subject line:
+The subject line has a type, an optional scope, and a description. The scope is omitted when the change is global or no meaningful scope applies.
 
 ```text
-<emoji> <type>(<scope>): <description>
-```
-
-The scope is optional when the change is global or no meaningful scope applies.
-
-```text
-✨ feat(parser): support nested configuration blocks
+<type>(<scope>): <description>
 ```
 
 ```text
-🐛 fix(api): handle missing authorization header
+feat(checkout): support coupon codes
 ```
 
 ```text
-🔧 chore: update pre-commit hooks
+fix(payments): handle missing gateway token
 ```
-
-### Body and footer
-
-Add a blank line after the subject line only when extra context is genuinely needed, such as motivation, edge cases, or breaking changes.
-
-Use the body to explain why the change was made or provide relevant context not captured by the subject.
 
 ```text
-♻️ refactor(queue): decouple worker dispatch from storage
-
-Extract queue polling into a dedicated runner so tests can inject a
-fake backend without patching internal state.
-
-BREAKING CHANGE: `WorkerPool` now requires a `runner` argument.
+chore: update pre-commit hooks
 ```
 
-## Commit types
+- The subject is at most 72 characters and has no trailing period.
+- The description is lowercase and in the imperative mood (`add retry`, not `adds retry`).
+- The description is specific enough to tell what changed without opening the diff (`handle missing gateway token`, not `fix bug`).
+- The scope is lowercase kebab-case (`data-loader`, `ci`).
 
-Use a concise set of standard types mapped to a clear emoji:
+## Types
 
-- `✨ feat`: A new feature or user-facing capability.
-- `🐛 fix`: A bug fix.
-- `♻️ refactor`: A code change that neither fixes a bug nor adds a feature.
-- `⚡ perf`: A performance improvement.
-- `📝 docs`: Documentation-only changes.
-- `✅ test`: Adding or updating tests.
-- `🔧 chore`: Build configuration, tooling, scripts, or general maintenance.
-- `📦 build`: Changes affecting the build system or external dependencies.
-- `👷 ci`: CI/CD pipeline or workflow changes.
-- `🎨 style`: Formatting, whitespace, or non-behavioral code style changes.
+The type comes from a fixed set:
 
-## Commit style rules
+- `feat`: A new feature or user-facing capability.
+- `fix`: A bug fix.
+- `refactor`: A code change that neither fixes a bug nor adds a feature.
+- `perf`: A performance improvement.
+- `docs`: A documentation-only change.
+- `test`: A change that adds or updates tests.
+- `chore`: A tooling, script, or maintenance change that fits no other type.
+- `build`: A change to the build system or external dependencies.
+- `ci`: A change to CI/CD pipelines or workflows.
+- `style`: A formatting or whitespace change that does not alter behavior.
 
-- Follow the exact format `<emoji> <type>(<scope>): <description>` or `<emoji> <type>: <description>` when the scope is omitted.
-- Keep the subject line concise, ideally 72 characters or fewer.
-- Write the description in lowercase and imperative mood, starting with a verb (e.g., `add`, `fix`, `remove`, `extract`).
-- Do not end the subject line with a period.
-- Use lowercase kebab-case for scopes (e.g., `auth`, `data-loader`, `ci`).
-- Mark breaking changes with `!` after the type or scope (e.g., `✨ feat(api)!: change payload schema`) and explain them in a `BREAKING CHANGE:` footer when needed.
-- Explain what changed and why; avoid vague messages like `fix bug`, `update stuff`, or `wip`.
+## Body and footer
 
-## Checklist
+When the subject alone is not enough, a body after a blank line adds the missing context, such as the motivation for the change or edge cases.
 
-Before finishing, verify that:
+A breaking change is marked with `!` after the type or scope. A `BREAKING CHANGE:` footer describes what breaks when the subject alone does not.
 
-- The staged changes or diff have been inspected.
-- The commit follows the required format and uses the appropriate type and emoji.
-- The description is lowercase, imperative, and has no trailing period.
-- The subject line is concise and within the recommended length.
-- Breaking changes are documented when applicable.
+```text
+refactor(payments)!: require a gateway when creating a checkout
+
+Checkout no longer creates a default gateway.
+Tests can now inject a fake gateway without patching internal state.
+
+BREAKING CHANGE: `Checkout` now requires a `gateway` argument.
+```
