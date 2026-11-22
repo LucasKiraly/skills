@@ -5,9 +5,9 @@ description: Writes and updates concise Google-style docstrings in Python code. 
 
 # Python Docstrings
 
-Docstrings follow Google style and are concise and consistent. Each one tells the caller what they need to use the code without reading it.
+Docstrings follow Google style and are concise and consistent.
 
-Implementation details belong in code comments, not docstrings.
+Each docstring tells the caller what they need to use the code without reading it. Implementation details belong in code comments, not docstrings.
 
 A docstring is added or updated only when it is missing, incomplete, or no longer matches the code. All other docstrings stay untouched.
 
