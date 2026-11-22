@@ -7,7 +7,7 @@ description: Writes clear, consistent Git commit messages that follow the Conven
 
 Commit messages follow the Conventional Commits specification and are clear and consistent.
 
-Each one describes a single logical change, based on the diff rather than on file names alone. When the staged changes mix unrelated changes, separate commits are suggested.
+Each commit message describes a single logical change, based on the diff. When the diff mixes unrelated changes, separate commits are suggested.
 
 Scopes and wording match the conventions already used in the repository's history.
 
